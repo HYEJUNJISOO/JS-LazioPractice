@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--Dao 위치-->
+<mapper namespace="com.boot.sailing.v3.dao.MenuDaoV3">
+    <!-- 메뉴조회 -->
+    <select id="doList" resultType="map">
+        SELECT no, product, kind, price,
+        date_format(reg_day,'%Y.%m.%d') as reg_day,
+        date_format(mod_day,'%Y.%m.%d') as mod_day
+        FROM product_menu;
+    </select>
+</mapper>
