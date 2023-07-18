@@ -7,5 +7,10 @@ import java.util.Map;
 
 @Mapper
 public interface MenuDaoV3 {
+
     List<Map<String, Object>> doList();
+
+    int doInsert(String strProduct, String strKind, String strPrice);
+
+    int doDelete(String strNo);
 }

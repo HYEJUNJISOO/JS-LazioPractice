@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ko"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Product Menu</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" type="text/css" href="/css/comm.css">
+    <link rel="stylesheet" type="text/css" href="/css/coffee.css">
+
+</head>
+<body>
+
+<!-- 헤더 위치 -->
+<th:block th:replace="/v3/comm/header :: headerFragment"></th:block>
+
+<div id="main" style="font-size:large; text-align:center;">
+
+  <div id="search" style="height:300px; padding:15px; font-size:small; width:90%; margin-left:auto; margin-right:auto;">
+    <h3>[ Product menu 수정 <span style="font-size:30px;">&#129413;</span> ]
+
+      <form name="fm_menu_up" autocomplete="on" action="/v3/menu_up" method="post">
+
+        <fieldset>
+
+          <legend> [상품 메뉴 등록] </legend>
+          <label>상품명</label> <input type="text" id="name" name="product"
+
+</body>
+</html>

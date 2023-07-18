@@ -69,4 +69,18 @@ public class MenuSvcV3 {
         return list;
 
     }
+
+    public int doInsert(String strProduct, String strKind, String strPrice) {
+
+        int i = menuDao.doInsert(strProduct,strKind,strPrice);
+
+        return i;
+    }
+
+    public int doDelete(String strNo) {
+
+        int i=menuDao.doDelete(strNo);
+
+        return i;
+    }
 }
