@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--Dao 위치-->
+<mapper namespace="com.boot.sailing.v3.dao.MenuDaoV3">
+    <!-- 메뉴조회 -->
+    <select id="doList" resultType="map">
+        SELECT no, product, kind, price,
+        date_format(reg_day,'%Y.%m.%d') as reg_day,
+        date_format(mod_day,'%Y.%m.%d') as mod_day
+        FROM product_menu
+    </select>
+
+    <!-- 메뉴조회 - One row -->
+    <select id="doListOne" resultType="map">
+        SELECT no, product, kind, price,
+        date_format(reg_day,'%Y.%m.%d') as reg_day,
+        date_format(mod_day,'%Y.%m.%d') as mod_day
+        FROM product_menu
+        Where no = CAST(#{strNo} as INTEGER)
+
+    </select>
+
+    <!-- 상품 등록 -->
+    <insert id="doInsert">
+        INSERT INTO product_menu (product, kind, price)
+        VALUES (#{strProduct},#{strKind},CAST(#{strPrice} as INTEGER))
+    </insert>
+
+
+    <update id="doUpdate">
+        Update product_menu
+        Set
+            product = #{strProduct},
+            kind = #{strKind},
+            price = CAST(#{strPrice} as INTEGER)
+        Where no = CAST(#{strNo} as INTEGER)
+    </update>
+
+
+    <delete id="doDelete">
+        Delete from product_menu
+        Where no = CAST(#{strNo} as INTEGER)
+    </delete>
+
+</mapper>
