@@ -83,4 +83,28 @@ public class MenuSvcV3 {
 
         return i;
     }
+
+    //One row 조회
+    public Map<String, Object> doListOne(String strNo) {
+
+        Map<String,Object> map = menuDao.doListOne(strNo);
+
+        return map;
+    }
+
+    // Update
+    public int doUpdate(String strNo, String strProduct, String strKind, String strPrice) {
+
+        int i = menuDao.doUpdate(strNo,strProduct,strKind,strPrice);
+
+        return i;
+    }
+
+    // 조회하기
+    public List<Map<String, Object>> doSearch(String strStartDate, String strEndDate, String strProduct, String strKind) {
+
+        List<Map<String,Object>> list = menuDao.doSearch(strStartDate,strEndDate,strProduct,strKind);
+
+        return list;
+    }
 }

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <title>Member List</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- content="width=device-width 장치에따른 화면너비를 따르도록 페이지 너비지정 , initial-scale=1 : 페이지 처음로드할때 초기 확대/축소 수준설정 -->
+  <link rel="stylesheet" type="text/css" href="/css/comm.css">
+  <link rel="stylesheet" type="text/css" href="/css/coffee.css">
+  <!-- link태그는 외부의 문서를 연결시키는 태그 -->
+
+</head>
+<body>
+
+<!-- 헤더 위치(타임리프로 공통헤더 설정예정) -->
+<th:block th:replace="/v3/comm/header :: headerFragment"></th:block>
+
+<div id="main" style="font-size:large; text-align: center;">
+
+  <div id="search" style="height:150px; padding:15px; font-size: small; width:90%; margin-left:auto; margin-right:auto;">
+    <h3>[ Member Info <span style="font-size: 30px;">&#128699;</span> ]</h3>
+
+    <form name="fm_member" autocomplete="on">
+      <!-- autocomplete : 이전 입력값을 기반으로 비슷한 값들을 드롭다운 옵션으로 보여줌 -->
+      <fieldset>
+        <legend> [검색조건] </legend>
+        <label>등록기간</label>
+        <input type="date" id="start_date" name="start_date" min="2020-01-01" max="2023-12-31">
+        <input type="date" id="end_date" name="end_date" min="2020-01-01" max="2024-12-31">
+        &nbsp;&nbsp;
+        <!-- &nbsp : Non-breaking Space / 줄바꿈을 일으키지 않는 공백 -->
+        <label>고객명</label>
+        <input type="text" id="name" name="name">
+        &nbsp;&nbsp;
+        <input type="submit" value="조회" style="width:80px; height:30px; font-weight: bold; font-size:medium">
+
+      </fieldset>
+    </form>
+  </div>
+
+  <table class="table">
+    <thead>
+    <tr class="tr_td">
+      <th>Chk</th>
+      <th>고객ID</th>
+      <th>고객명</th>
+      <th>이메일</th>
+      <th>권한</th>
+      <th>등록일</th>
+    </tr>
+    </thead>
+
+    <tbody id="t_body">
+    <!-- 데이터 출력 부분 -->
+    <tr class="tr_td">
+      <th>Chk</th>
+      <th>고객ID</th>
+      <th>고객명</th>
+      <th>이메일</th>
+      <th>권한</th>
+      <th>등록일</th>
+    </tr>
+
+    <tr class="tr_td">
+      <th>Chk</th>
+      <th>고객ID</th>
+      <th>고객명</th>
+      <th>이메일</th>
+      <th>권한</th>
+      <th>등록일</th>
+    </tr>
+
+    <tr class="tr_td">
+      <th>Chk</th>
+      <th>고객ID</th>
+      <th>고객명</th>
+      <th>이메일</th>
+      <th>권한</th>
+      <th>등록일</th>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- 푸터 위치(타임리프로 공통헤더 설정예정) -->
+<th:block th:replace="/v3/comm/footer :: footerFragment"></th:block>
+
+</body>
+</html>
+

@@ -64,4 +64,44 @@ public class MenuConV3 {
 
         return "redirect:/v3/menu";
     }
+
+    @GetMapping("/menu_up")
+    public String doUpdate(Model model,
+                           @RequestParam("no") String strNo){
+
+        Map<String,Object> map = menuSvc.doListOne(strNo);
+        model.addAttribute("map",map);
+
+        return "/v3/menu/menu_up";
+    }
+
+    //수정버튼 누를시 데이터 뷰에 송부
+    @PostMapping("/menu_up")
+    public String doUpdatePost(@RequestParam("no") String strNo,
+                               @RequestParam("product") String strProduct,
+                               @RequestParam("kind") String strKind,
+                               @RequestParam("price") String strPrice
+    ){
+
+        int i = menuSvc.doUpdate(strNo,strProduct,strKind,strPrice);
+
+        return "redirect:/v3/menu";
+    }
+
+    //조회하기
+    @PostMapping("/menu_search")
+    public String doSearch(@RequestParam("start_date") String strStartDate,
+                           @RequestParam("end_date") String strEndDate,
+                           @RequestParam(value="product" , defaultValue="ALL") String strProduct,
+                           @RequestParam("kind") String strKind,
+                           Model model
+    ){
+        log.info("strStartDate: "+strStartDate);
+
+        List<Map<String,Object>> list = menuSvc.doSearch(strStartDate,strEndDate,strProduct,strKind);
+
+        model.addAttribute("list",list);
+
+        return "/v3/menu/menu";
+    }
 }
