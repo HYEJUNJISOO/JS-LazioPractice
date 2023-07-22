@@ -104,4 +104,24 @@ public class MenuConV3 {
 
         return "/v3/menu/menu";
     }
+
+    //가격수정(다중체크)
+    @PostMapping("/menu_updatePrice")
+    public String doUpdatePrice(@RequestParam("chkProductNo") List<String> chkList,
+                                @RequestParam("hidden_price") String strPrice
+
+    ){
+
+        if(chkList != null){
+//            for(String strNo:chkList){
+//
+//                int int2=menuSvc.doUpdatePrice(strNo,strPrice);
+//                int int1=menuSvc.doInsertLog(strNo,strPrice);
+//            }
+            int int1=menuSvc.doInsertLogOne(chkList, strPrice);
+            int int2=menuSvc.doUpdatePriceOne(chkList,strPrice);
+        }
+
+        return "redirect:/v3/menu";
+    }
 }

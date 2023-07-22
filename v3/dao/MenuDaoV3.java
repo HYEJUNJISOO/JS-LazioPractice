@@ -22,4 +22,16 @@ public interface MenuDaoV3 {
 
     // Search
     List<Map<String, Object>> doSearch(String strStartDate, String strEndDate, String strProduct, String strKind);
+
+    // 가격수정
+    int doUpdatePrice(String strNo, String strPrice);
+
+    // 가격수정 로그입력
+    int doInsertLog(String strNo, String strPrice);
+
+    // 가격수정 로그입력(원쿼리)
+    int doInsertLogOne(List<String> chkList, String strPrice);
+
+    //가격수정(원쿼리)
+    int doUpdatePriceOne(List<String> chkList, String strPrice);
 }

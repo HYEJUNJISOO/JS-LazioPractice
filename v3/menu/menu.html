@@ -71,14 +71,14 @@
 
             <!-- 데이터 출력 부분 -->
             <tr th:each="prod : ${list}">
-                <td>Chk</td>
+                <td><input type="checkbox" name="chkProductNo" th:value="${prod.get('no')}"></td>
                 <td th:text="${prod.get('no')}">상품No</td>
                 <td th:text="${prod.get('product')}">메뉴명</td>
                 <td th:text="${prod.get('kind')}">종류</td>
                 <td th:text="${prod.get('price')}">가격</td>
                 <td th:text="${prod.get('reg_day')}">등록일</td>
                 <td th:text="${prod.get('mod_day')}">수정일</td>
-                <td>수정</td>
+                <td><a th:href="@{/v3/menu_up(no=${prod.get('no')})}">수정</a></td>
                 <td><a th:href="@{/v3/menu_del(no=${prod.get('no')})}">삭제</a></td>
             </tr>
 
@@ -93,10 +93,18 @@
 <th:block th:replace="/v3/comm/footer :: footerFragment"></th:block>
 
 <script>
-    //가격수정 버튼 클릭 후 미입력시 알림창 띄우는 함수
-    function onModify(){
-        let _price=prompt("가겨을 입력하세요");
+    /* 현재 시간 날짜에 적용시키기*/
+    const now=new Date(); //현재 날짜 및 시간
+    const time7=new Date(now.setDate(now.getDate() - 200)); //기간 설정
+    document.getElementById("start_date").value=time7.toISOString().slice(0,10);
+    document.getElementById("end_date").value=new Date().toISOString().slice(0,10);
+</script>
 
+<script>
+    //가격수정 버튼 클릭 후 미입력시 알림창 띄우는 자바스크립트 함수
+    function onModify(){
+        let _price=prompt("가격을 입력하세요");
+        //undefinded=가격입력창에서 취소버튼 눌렀을시 가격이 정의되지않았을때
         if(_price==undefined){
             return;
         }else if(_price==""){
