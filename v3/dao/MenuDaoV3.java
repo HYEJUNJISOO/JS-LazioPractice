@@ -1,5 +1,6 @@
 package com.boot.sailing.v3.dao;
 
+import com.boot.sailing.v3.vo.Product_menu;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -8,9 +9,9 @@ import java.util.Map;
 @Mapper
 public interface MenuDaoV3 {
 
-    List<Map<String, Object>> doList();
+    List<Product_menu> doList();
 
-    int doInsert(String strProduct, String strKind, String strPrice);
+    int doInsert(Product_menu productMenu);
 
     int doDelete(String strNo);
 
@@ -18,10 +19,10 @@ public interface MenuDaoV3 {
     Map<String, Object> doListOne(String strNo);
 
     // Update
-    int doUpdate(String strNo, String strProduct, String strKind, String strPrice);
+    int doUpdate(Product_menu productMenu);
 
     // Search
-    List<Map<String, Object>> doSearch(String strStartDate, String strEndDate, String strProduct, String strKind);
+    List<Product_menu> doSearch(String strStartDate, String strEndDate, String strProduct, String strKind);
 
     // 가격수정
     int doUpdatePrice(String strNo, String strPrice);

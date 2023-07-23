@@ -71,15 +71,15 @@
 
             <!-- 데이터 출력 부분 -->
             <tr th:each="prod : ${list}">
-                <td><input type="checkbox" name="chkProductNo" th:value="${prod.get('no')}"></td>
-                <td th:text="${prod.get('no')}">상품No</td>
-                <td th:text="${prod.get('product')}">메뉴명</td>
-                <td th:text="${prod.get('kind')}">종류</td>
-                <td th:text="${prod.get('price')}">가격</td>
-                <td th:text="${prod.get('reg_day')}">등록일</td>
-                <td th:text="${prod.get('mod_day')}">수정일</td>
-                <td><a th:href="@{/v3/menu_up(no=${prod.get('no')})}">수정</a></td>
-                <td><a th:href="@{/v3/menu_del(no=${prod.get('no')})}">삭제</a></td>
+                <td><input type="checkbox" name="chkProductNo" th:value="${prod.getNo()}"></td>
+                <td th:text="${prod.getNo()}">상품No</td>
+                <td th:text="${prod.getProduct()}">메뉴명</td>
+                <td th:text="${prod.getKind()}">종류</td>
+                <td th:text="${#numbers.formatInteger(prod.getPrice(),0,'COMMA')}">가격</td>
+                <td th:text="${prod.getReg_day()}">등록일</td>
+                <td th:text="${prod.getMod_day()}">수정일</td>
+                <td><a th:href="@{/v3/menu_up(no=${prod.getNo()})}">수정</a></td>
+                <td><a th:href="@{/v3/menu_del(no=${prod.getNo()})}">삭제</a></td>
             </tr>
 
             </tbody>

@@ -1,14 +1,12 @@
 package com.boot.sailing.v3.controller;
 
 import com.boot.sailing.v3.service.MenuSvcV3;
+import com.boot.sailing.v3.vo.Product_menu;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,7 +25,7 @@ public class MenuConV3 {
     public String doMenu(Model model){
 
         //Data 만들기 List , Map
-        List<Map<String,Object>> list= menuSvc.doList();
+        List<Product_menu> list= menuSvc.doList();
 
         // Data 송부
         model.addAttribute("list",list);
@@ -44,12 +42,10 @@ public class MenuConV3 {
 
     //등록버튼 누를시 데이터 뷰에 송부
     @PostMapping("/menu_ins")
-    public String doInsertPost(@RequestParam("product") String strProduct,
-                               @RequestParam("kind") String strKind,
-                               @RequestParam("price") String strPrice
+    public String doInsertPost(@ModelAttribute Product_menu productMenu
     ){
 
-        int i = menuSvc.doInsert(strProduct,strKind,strPrice);
+        int i = menuSvc.doInsert(productMenu);
 
         return "redirect:/v3/menu";
     }
@@ -77,13 +73,10 @@ public class MenuConV3 {
 
     //수정버튼 누를시 데이터 뷰에 송부
     @PostMapping("/menu_up")
-    public String doUpdatePost(@RequestParam("no") String strNo,
-                               @RequestParam("product") String strProduct,
-                               @RequestParam("kind") String strKind,
-                               @RequestParam("price") String strPrice
+    public String doUpdatePost(Product_menu productMenu
     ){
 
-        int i = menuSvc.doUpdate(strNo,strProduct,strKind,strPrice);
+        int i = menuSvc.doUpdate(productMenu);
 
         return "redirect:/v3/menu";
     }
@@ -98,7 +91,7 @@ public class MenuConV3 {
     ){
         log.info("strStartDate: "+strStartDate);
 
-        List<Map<String,Object>> list = menuSvc.doSearch(strStartDate,strEndDate,strProduct,strKind);
+        List<Product_menu> list = menuSvc.doSearch(strStartDate,strEndDate,strProduct,strKind);
 
         model.addAttribute("list",list);
 

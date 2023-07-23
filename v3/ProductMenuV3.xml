@@ -5,7 +5,7 @@
 <!--Dao 위치-->
 <mapper namespace="com.boot.sailing.v3.dao.MenuDaoV3">
     <!-- 메뉴조회 -->
-    <select id="doList" resultType="map">
+    <select id="doList" resultType="com.boot.sailing.v3.vo.Product_menu">
         SELECT no, product, kind, price,
         date_format(reg_day,'%Y.%m.%d') as reg_day,
         date_format(mod_day,'%Y.%m.%d') as mod_day
@@ -17,7 +17,7 @@
                    > : &gt;
     -->
     <!-- 검색에 의한 쿼리 -->
-    <select id="doSearch" resultType="map">
+    <select id="doSearch" resultType="com.boot.sailing.v3.vo.Product_menu">
         SELECT no, product, kind, price,
         date_format(reg_day,'%Y.%m.%d') as reg_day,
         date_format(mod_day,'%Y.%m.%d') as mod_day
@@ -46,17 +46,17 @@
     <!-- 상품 등록 -->
     <insert id="doInsert">
         INSERT INTO product_menu (product, kind, price)
-        VALUES (#{strProduct},#{strKind},CAST(#{strPrice} as INTEGER))
+        VALUES (#{product},#{kind},CAST(#{price} as INTEGER))
     </insert>
 
     <!-- 상품 수정 -->
     <update id="doUpdate">
         Update product_menu
         Set
-            product = #{strProduct},
-            kind = #{strKind},
-            price = CAST(#{strPrice} as INTEGER)
-        Where no = CAST(#{strNo} as INTEGER)
+            product = #{product},
+            kind = #{kind},
+            price = CAST(#{price} as INTEGER)
+        Where no = CAST(#{no} as INTEGER)
     </update>
 
     <!-- 삭제처리 -->
@@ -74,7 +74,7 @@
 
     <!-- 가격 로그입력  -->
     <insert id="doInsertLog">
-        INSERT INTO log(product_no,price)
+        INSERT INTO product_menu_log (product_no,price)
         VALUES (#{strNo},CAST(#{strPrice} as INTEGER))
     </insert>
 
@@ -92,7 +92,7 @@
 
     <!-- 가격 로그입력(원쿼리) -->
     <insert id="doInsertLogOne">
-        INSERT INTO log(product_no,price)
+        INSERT INTO product_menu_log(product_no,price)
         <foreach item="item" index="index" collection="chkList" separator="UNION ALL" nullable="true">
             SELECT #{item}, CAST(#{strPrice} as INTEGER) FROM DUAL
         </foreach>

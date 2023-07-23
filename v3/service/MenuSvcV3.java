@@ -1,6 +1,7 @@
 package com.boot.sailing.v3.service;
 
 import com.boot.sailing.v3.dao.MenuDaoV3;
+import com.boot.sailing.v3.vo.Product_menu;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,10 +19,10 @@ public class MenuSvcV3 {
     MenuDaoV3 menuDao;
 
     //Dao에 연동시켜서 뷰로 데이터 전송
-    public List<Map<String,Object>> doList(){
+    public List<Product_menu> doList(){
 
         //Data 만들기 List , Map
-        List<Map<String,Object>> list=menuDao.doList();
+        List<Product_menu> list=menuDao.doList();
 
         log.info(list);
 
@@ -70,9 +71,9 @@ public class MenuSvcV3 {
 
     }
 
-    public int doInsert(String strProduct, String strKind, String strPrice) {
+    public int doInsert(Product_menu productMenu) {
 
-        int i = menuDao.doInsert(strProduct,strKind,strPrice);
+        int i = menuDao.doInsert(productMenu);
 
         return i;
     }
@@ -93,17 +94,17 @@ public class MenuSvcV3 {
     }
 
     // Update
-    public int doUpdate(String strNo, String strProduct, String strKind, String strPrice) {
+    public int doUpdate(Product_menu productMenu) {
 
-        int i = menuDao.doUpdate(strNo,strProduct,strKind,strPrice);
+        int i = menuDao.doUpdate(productMenu);
 
         return i;
     }
 
     // 조회하기
-    public List<Map<String, Object>> doSearch(String strStartDate, String strEndDate, String strProduct, String strKind) {
+    public List<Product_menu> doSearch(String strStartDate, String strEndDate, String strProduct, String strKind) {
 
-        List<Map<String,Object>> list = menuDao.doSearch(strStartDate,strEndDate,strProduct,strKind);
+        List<Product_menu> list = menuDao.doSearch(strStartDate,strEndDate,strProduct,strKind);
 
         return list;
     }
