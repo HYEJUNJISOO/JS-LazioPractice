@@ -16,12 +16,13 @@ import java.util.List;
 
 @Controller
 @Log4j2
+@RequestMapping("/v3")
 public class OrderConV3 {
 
     @Autowired
     OrderSvcV3 orderSvcV3;
 
-    @RequestMapping("/v3/order")
+    @RequestMapping("/order")
     public String doOrder(Model model){
 
         //Data 만들기 List , Map
