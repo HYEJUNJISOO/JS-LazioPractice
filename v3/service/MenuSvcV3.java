@@ -5,6 +5,7 @@ import com.boot.sailing.v3.vo.Product_menu;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -131,5 +132,16 @@ public class MenuSvcV3 {
     public int doUpdatePriceOne(List<String> chkList, String strPrice) {
         int int2=menuDao.doUpdatePriceOne(chkList,strPrice);
         return int2;
+    }
+
+    @Transactional
+    //가격 수정 및 로그입력(원커리)
+    public int doUpdateInsert(List<String> chkList, String strPrice) {
+        log.info("================ ||||||||||||| ====================");
+
+        int int2=menuDao.doUpdatePriceOne(chkList,strPrice);
+        int int1=menuDao.doInsertLogOne(chkList, strPrice);
+
+        return int1;
     }
 }
