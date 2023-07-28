@@ -1,12 +1,18 @@
 package com.boot.sailing.v3.service;
 
+import com.boot.sailing.comm.Bootlog;
+import com.boot.sailing.comm.MyExceptionRuntime;
 import com.boot.sailing.v3.dao.MenuDaoV3;
 import com.boot.sailing.v3.vo.Product_menu;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -18,6 +24,9 @@ public class MenuSvcV3 {
 
     @Autowired
     MenuDaoV3 menuDao;
+
+    @Autowired
+    Bootlog bootlog;
 
     //Dao에 연동시켜서 뷰로 데이터 전송
     public List<Product_menu> doList(){
@@ -134,14 +143,40 @@ public class MenuSvcV3 {
         return int2;
     }
 
-    @Transactional
+    //@Transactional(rollbackFor = Exception.class)
+    @Transactional(propagation = Propagation.REQUIRED)
     //가격 수정 및 로그입력(원커리)
-    public int doUpdateInsert(List<String> chkList, String strPrice) {
-        log.info("================ ||||||||||||| ====================");
+    public int doUpdateInsert(List<String> chkList, String strPrice) throws RuntimeException {
 
-        int int2=menuDao.doUpdatePriceOne(chkList,strPrice);
-        int int1=menuDao.doInsertLogOne(chkList, strPrice);
+        int int1=0;
+        try {
+
+            int int2 = menuDao.doUpdatePriceOne(chkList, strPrice);
+
+                int1 = menuDao.doInsertLogOne(chkList, strPrice);
+
+            int numerator = 1;
+            int denominator = 0;
+            int result = numerator / denominator;
+
+        }catch (Exception e){
+            throw new MyExceptionRuntime(e.getMessage(), getClass().getName());
+        }finally {
+            log.info("==================== Finally ====================");
+            bootlog.doBootLog(getClass().getName());
+        }
 
         return int1;
+
+        // Checked Exception
+//        File file = new File("not_existing_file.txt");
+//        FileInputStream stream
+//                = new FileInputStream(file);
+
+        //Unchecked Exception, -> ArithmeticException
+//            int numerator = 1;
+//            int denominator = 0;
+//            int result = numerator / denominator;
     }
+
 }

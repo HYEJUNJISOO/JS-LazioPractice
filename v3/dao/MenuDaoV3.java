@@ -35,4 +35,6 @@ public interface MenuDaoV3 {
 
     //가격수정(원쿼리)
     int doUpdatePriceOne(List<String> chkList, String strPrice);
+
+    int doBootLog(String name);
 }

@@ -101,21 +101,31 @@ public class MenuConV3 {
     //가격수정(다중체크)
     @PostMapping("/menu_updatePrice")
     public String doUpdatePrice(@RequestParam("chkProductNo") List<String> chkList,
-                                @RequestParam("hidden_price") String strPrice
+                                @RequestParam("hidden_price") String strPrice,
+                                Model model
 
     ){
 
-        if(chkList != null){
+        String strReturn="redirect:/v3/menu";
+
+        try {
+            if (chkList != null) {
 //            for(String strNo:chkList){
 //
 //                int int2=menuSvc.doUpdatePrice(strNo,strPrice);
 //                int int1=menuSvc.doInsertLog(strNo,strPrice);
 //            }
-            int int1=menuSvc.doUpdateInsert(chkList,strPrice);
+                int int1 = menuSvc.doUpdateInsert(chkList, strPrice);
 //            int int1=menuSvc.doInsertLogOne(chkList, strPrice);
 //            int int2=menuSvc.doUpdatePriceOne(chkList,strPrice);
+            }
+        }catch (Exception e){
+            log.info("Error Error Error : "+e.getMessage());
+
+            model.addAttribute("em",e.getMessage());
+            strReturn="/v3/comm/ErrorPage";
         }
 
-        return "redirect:/v3/menu";
+        return strReturn;
     }
 }

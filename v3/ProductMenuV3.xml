@@ -97,4 +97,10 @@
             SELECT #{item}, CAST(#{strPrice} as INTEGER) FROM DUAL
         </foreach>
     </insert>
+
+    <!-- boot log 입력  -->
+    <insert id="doBootLog">
+        INSERT INTO boot_log (class)
+        VALUES (#{strClass})
+    </insert>
 </mapper>
