@@ -7,8 +7,13 @@ import com.boot.sailing.v3.vo.Product_menu;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionCallbackWithoutResult;
+import org.springframework.transaction.support.TransactionTemplate;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -27,6 +32,15 @@ public class MenuSvcV3 {
 
     @Autowired
     Bootlog bootlog;
+
+    @Autowired
+    PlatformTransactionManager transactionManager;
+
+    @Autowired
+    TransactionDefinition definition;
+
+    @Autowired
+    TransactionTemplate transactionTemplate;
 
     //Dao에 연동시켜서 뷰로 데이터 전송
     public List<Product_menu> doList(){
@@ -143,30 +157,69 @@ public class MenuSvcV3 {
         return int2;
     }
 
+    /*
     //@Transactional(rollbackFor = Exception.class)
-    @Transactional(propagation = Propagation.REQUIRED)
-    //가격 수정 및 로그입력(원커리)
+    //가격 수정 및 로그입력(원커리 / TransactionManager 사용해봄)
     public int doUpdateInsert(List<String> chkList, String strPrice) throws RuntimeException {
 
         int int1=0;
         try {
-
+            TransactionStatus status = transactionManager.getTransaction(definition);
             int int2 = menuDao.doUpdatePriceOne(chkList, strPrice);
+                transactionManager.rollback(status);
 
-                int1 = menuDao.doInsertLogOne(chkList, strPrice);
-
-            int numerator = 1;
-            int denominator = 0;
-            int result = numerator / denominator;
+            TransactionStatus status2 = transactionManager.getTransaction(definition);
+            int1 = menuDao.doInsertLogOne(chkList, strPrice); // -> autocommit으로 commit됨
+                transactionManager.rollback(status2); // -> 해당 commit 은 실행불가 오류발생함 -> transactionManager 각각 한개씩 선언해줘야 실행가능
 
         }catch (Exception e){
             throw new MyExceptionRuntime(e.getMessage(), getClass().getName());
         }finally {
             log.info("==================== Finally ====================");
+
+            TransactionStatus status3 = transactionManager.getTransaction(definition);
             bootlog.doBootLog(getClass().getName());
+            transactionManager.rollback(status3);
         }
 
         return int1;
+*/
+    //가격 수정 및 로그입력(원커리 / transactionTemplate 사용해봄)
+    //transactionTemplate는 오류없이 잘 돌아가면 자동 Commit 됨
+    public int doUpdateInsert(List<String> chkList, String strPrice) throws RuntimeException {
+
+        int rI=0;
+        try {
+
+            log.info("================ return ==============================");
+            rI = transactionTemplate.execute(status -> {
+                        int int2 = menuDao.doUpdatePriceOne(chkList, strPrice);
+                        //status.setRollbackOnly();//한 세션을 강제로 롤백시키기
+                        return int2;
+                    });
+
+            log.info("================ No return ==============================");
+            transactionTemplate.execute(new TransactionCallbackWithoutResult() {
+                @Override
+                protected void doInTransactionWithoutResult(TransactionStatus status) {
+                    int int1 = menuDao.doInsertLogOne(chkList,strPrice);
+                    //status.setRollbackOnly();
+                }
+            });
+
+
+        }catch (Exception e){
+            throw new MyExceptionRuntime(e.getMessage(), getClass().getName());
+        }finally {
+            log.info("==================== Finally ====================");
+            TransactionStatus status3 = transactionManager.getTransaction(definition);
+            bootlog.doBootLog(getClass().getName());
+            transactionManager.commit(status3);
+        }
+
+        return rI;
+
+
 
         // Checked Exception
 //        File file = new File("not_existing_file.txt");
@@ -178,5 +231,6 @@ public class MenuSvcV3 {
 //            int denominator = 0;
 //            int result = numerator / denominator;
     }
+
 
 }
